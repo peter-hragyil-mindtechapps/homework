@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        - PORT=${PORT}
+        - NODE_ENV=${NODE_ENV}
+    user: node
+    working_dir: /home/node/app
+    env_file:
+      - ./.env
+    volumes:
+      - ./src:/home/node/app/src
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - mynet
+    command: "npm run start:dev"
+
+networks:
+  mynet:
